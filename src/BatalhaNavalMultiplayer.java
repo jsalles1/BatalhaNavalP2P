@@ -15,9 +15,10 @@ public class BatalhaNavalMultiplayer {
     private boolean meuTurno = false;
 
     private static final Map<String, Integer> TIPOS_DE_NAVIOS = Map.of(
-       // "porta-avioes", 5,
-       // "encouracado", 4,
-       // "cruzador", 3,
+        "porta-avioes", 5,
+        "encouracado", 4,
+        "cruzador", 3,
+        "cruzador2", 3,
         "destroier", 2,
         "destroier2", 2
     );
@@ -303,7 +304,7 @@ public class BatalhaNavalMultiplayer {
     
 
     private void exibirTabuleiro(char[][] tabuleiroJogador, char[][] tabuleiroAtaque) {
-        System.out.println("Seu tabuleiro:                         Tabuleiro de ataques:");
+        System.out.println("Seu tabuleiro:                 Tabuleiro de ataques:");
         
         // Cabeçalho das colunas para ambos os tabuleiros
         System.out.print("   "); // Espaçamento inicial para alinhar
