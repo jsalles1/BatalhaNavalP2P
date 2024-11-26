@@ -15,6 +15,9 @@ public class BatalhaNavalMultiplayer {
     private boolean meuTurno = false;
 
     private static final Map<String, Integer> TIPOS_DE_NAVIOS = Map.of(
+       // "porta-avioes", 5,
+       // "encouracado", 4,
+       // "cruzador", 3,
         "destroier", 2,
         "destroier2", 2
     );
