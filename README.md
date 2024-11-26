@@ -20,8 +20,8 @@ O projeto **Batalha Naval Multiplayer** é uma implementação do tradicional jo
 2. **Navegue até o diretório**
 
 3. **Compile o código**:
-- javac -cp json-20240303.jar BatalhaNavalMultiplayer.java
-- java -cp .:json-20240303.jar BatalhaNavalMultiplayer
+- javac -cp json-20240303.jar BatalhaNavalMultiplayer.java Cor.java
+- java -cp .:json-20240303.jar BatalhaNavalMultiplayer Cor
 
 4. **Iniciar o Jogo**:
 - O servidor aguardará a conexão do cliente, enquanto o cliente se conectará ao servidor entrando seu endereço de IP.
