@@ -220,7 +220,7 @@ public class BatalhaNavalMultiplayer {
                 output.println(linha + "," + coluna);
                 String resultado = input.readLine();
     
-                if ("ACERTO".equals(resultado)) {
+                if ("ACERTO".equals(resultado) || tabuleiroAtaque[linha][coluna] == ACERTO) {
                     System.out.println("Você acertou!");
                     tabuleiroAtaque[linha][coluna] = ACERTO;
                 } else {
@@ -256,9 +256,6 @@ public class BatalhaNavalMultiplayer {
                     System.out.println("O oponente errou na posição: (" + linha + ", " + coluna + ")");
                     output.println("ERRO");
                 }
-    
-                System.out.println("Ataque do oponente:");
-                exibirTabuleiro(tabuleiroJogador, tabuleiroAtaque);
     
                 if (ChecarFimDeJogo("meus_navios.json", tabuleiroJogador)) {
                     System.out.println("Você perdeu!");
@@ -304,7 +301,7 @@ public class BatalhaNavalMultiplayer {
     
 
     private void exibirTabuleiro(char[][] tabuleiroJogador, char[][] tabuleiroAtaque) {
-        System.out.println("Seu tabuleiro:                 Tabuleiro de ataques:");
+        System.out.println("Seu tabuleiro:                Tabuleiro de ataques:");
         
         // Cabeçalho das colunas para ambos os tabuleiros
         System.out.print("   "); // Espaçamento inicial para alinhar
