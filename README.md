@@ -17,23 +17,23 @@ O projeto **Batalha Naval Multiplayer** é uma implementação do tradicional jo
 1. **Clone o repositório**:
 
 ```bash
-- git clone https://github.com/jsalles1/BatalhaNavalP2P.git
+git clone https://github.com/jsalles1/BatalhaNavalP2P.git
 ```
 
 2. **Navegue até o diretório**
 
 ```bash
-- cd BatalhaNavalP2P/src
+cd BatalhaNavalP2P/src
 ```
 
 3. **Compile o código**:
 
 ```bash
-- javac -cp json-20240303.jar BatalhaNavalMultiplayer.java Cor.java
+javac -cp json-20240303.jar BatalhaNavalMultiplayer.java Cor.java
 ```
 
 ```bash
-- java -cp .:json-20240303.jar BatalhaNavalMultiplayer Cor
+java -cp .:json-20240303.jar BatalhaNavalMultiplayer Cor
 ```
 
 4. **Iniciar o Jogo**:
