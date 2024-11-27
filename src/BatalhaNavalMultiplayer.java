@@ -247,7 +247,7 @@ public class BatalhaNavalMultiplayer {
                 int linha = Integer.parseInt(partes[0]);
                 int coluna = Integer.parseInt(partes[1]);
     
-                if (tabuleiroJogador[linha][coluna] == NAVIO) {
+                if (tabuleiroJogador[linha][coluna] == NAVIO || tabuleiroJogador[linha][coluna] == ACERTO) {
                     tabuleiroJogador[linha][coluna] = ACERTO;
                     System.out.println("O oponente acertou na posição: (" + linha + ", " + coluna + ")");
                     output.println("ACERTO");
