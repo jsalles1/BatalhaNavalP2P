@@ -11,17 +11,30 @@ O projeto **Batalha Naval Multiplayer** é uma implementação do tradicional jo
 
 ## Requisitos
 - **Java 11+**: A versão mínima recomendada do Java para rodar o projeto.
-- **IDE recomendada**: IntelliJ IDEA, Eclipse ou qualquer IDE que suporte projetos Java.
 
 ## Como Rodar o Projeto
 
 1. **Clone o repositório**:
 
+```bash
+- git clone https://github.com/jsalles1/BatalhaNavalP2P.git
+```
+
 2. **Navegue até o diretório**
 
+```bash
+- cd BatalhaNavalP2P/src
+```
+
 3. **Compile o código**:
+
+```bash
 - javac -cp json-20240303.jar BatalhaNavalMultiplayer.java Cor.java
+```
+
+```bash
 - java -cp .:json-20240303.jar BatalhaNavalMultiplayer Cor
+```
 
 4. **Iniciar o Jogo**:
 - O servidor aguardará a conexão do cliente, enquanto o cliente se conectará ao servidor entrando seu endereço de IP.
