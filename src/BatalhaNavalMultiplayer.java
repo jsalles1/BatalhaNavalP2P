@@ -238,11 +238,6 @@ public class BatalhaNavalMultiplayer {
                 System.out.println("Aguardando o ataque do oponente...");
                 String ataque = input.readLine();
     
-                if ("FIM_JOGO".equals(ataque)) {
-                    System.out.println("Você perdeu!");
-                    break; // Sai do loop
-                }
-    
                 String[] partes = ataque.split(",");
                 int linha = Integer.parseInt(partes[0]);
                 int coluna = Integer.parseInt(partes[1]);
@@ -268,7 +263,6 @@ public class BatalhaNavalMultiplayer {
         }
     }
     
-
     private boolean ChecarFimDeJogo(String arquivoJson, char[][] tabuleiro) {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivoJson))) {
             StringBuilder jsonContent = new StringBuilder();
@@ -299,7 +293,6 @@ public class BatalhaNavalMultiplayer {
         }
     }
     
-
     private void exibirTabuleiro(char[][] tabuleiroJogador, char[][] tabuleiroAtaque) {
         System.out.println("Seu tabuleiro:                Tabuleiro de ataques:");
         
@@ -347,5 +340,3 @@ public class BatalhaNavalMultiplayer {
     }
     
 }
-
-
