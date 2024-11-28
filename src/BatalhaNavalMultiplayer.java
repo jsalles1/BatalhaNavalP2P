@@ -37,6 +37,7 @@ public class BatalhaNavalMultiplayer {
     }
 
     public void iniciar() throws IOException {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Digite '1' para iniciar como servidor, ou '2' para iniciar como cliente:");
@@ -69,6 +70,7 @@ public class BatalhaNavalMultiplayer {
     }
 
     private void iniciarServidor() throws IOException {
+        @SuppressWarnings("resource")
         ServerSocket serverSocket = new ServerSocket(8080);
         System.out.println("Servidor aguardando conexão...");
         socket = serverSocket.accept();
@@ -78,6 +80,7 @@ public class BatalhaNavalMultiplayer {
     }
 
     private void iniciarCliente() throws IOException {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
 
         System.out.print("Digite o endereço IP do servidor: ");
@@ -102,6 +105,7 @@ public class BatalhaNavalMultiplayer {
     }
 
     private void posicionarNavios(char[][] tabuleiro, List<JSONObject> navios, String arquivoJson) {
+        @SuppressWarnings("resource")
         Scanner scanner = new Scanner(System.in);
         for (Map.Entry<String, Integer> tipoNavio : TIPOS_DE_NAVIOS.entrySet()) {
             String tipo = tipoNavio.getKey();
@@ -206,6 +210,7 @@ public class BatalhaNavalMultiplayer {
     private void jogar() throws IOException {
         while (true) {
             if (meuTurno) {
+                @SuppressWarnings("resource")
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("Seu turno:");
                 exibirTabuleiro(tabuleiroJogador, tabuleiroAtaque);
@@ -255,6 +260,7 @@ public class BatalhaNavalMultiplayer {
                 if (ChecarFimDeJogo("meus_navios.json", tabuleiroJogador)) {
                     System.out.println("Você perdeu!");
                     output.println("FIM_JOGO");
+                    socket.close();
                     break; // Sai do loop
                 }
             }
