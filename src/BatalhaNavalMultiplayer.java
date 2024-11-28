@@ -15,12 +15,12 @@ public class BatalhaNavalMultiplayer {
     private boolean meuTurno = false;
 
     private static final Map<String, Integer> TIPOS_DE_NAVIOS = Map.of(
-        //"porta-avioes", 5,
-       // "encouracado", 4,
-       // "cruzador", 3,
-       // "cruzador2", 3,
-       // "destroier2", 2,
-        "destroier", 2
+        "porta-avioes", 5,
+        "encouracado", 4,
+        "cruzador", 3,
+        "cruzador2", 3,
+        "destroier", 2,
+        "destroier2", 2
     );
 
     private char[][] tabuleiroJogador = new char[GRID_SIZE][GRID_SIZE];
@@ -186,43 +186,22 @@ public class BatalhaNavalMultiplayer {
 
     private void enviarArquivo(String arquivo) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(arquivo))) {
-            StringBuilder jsonBuilder = new StringBuilder();
             String linha;
-    
-            // Constrói o JSON como uma única string
             while ((linha = reader.readLine()) != null) {
-                jsonBuilder.append(linha);
+                output.println(linha);
             }
-    
-            // Envia o JSON completo em uma única chamada
-            output.println(jsonBuilder.toString());
+            output.println("EOF");
         }
     }
-    
 
     private void receberArquivo(String arquivo) throws IOException {
-        StringBuilder jsonBuilder = new StringBuilder();
-        char[] buffer = new char[1024];
-        int bytesLidos;
-    
-        while ((bytesLidos = input.read(buffer)) != -1) {
-            jsonBuilder.append(buffer, 0, bytesLidos);
-    
-            // Verifica se o JSON está completo
-            String jsonContent = jsonBuilder.toString().trim();
-            if (jsonContent.startsWith("[") && jsonContent.endsWith("]")) {
-                break; // Encerra a leitura ao detectar JSON completo
+        try (PrintWriter writer = new PrintWriter(new FileWriter(arquivo))) {
+            String linha;
+            while (!(linha = input.readLine()).equals("EOF")) {
+                writer.println(linha);
             }
         }
-    
-        // Salva o JSON no arquivo
-        try (BufferedWriter writer = new BufferedWriter(new FileWriter(arquivo))) {
-            writer.write(jsonBuilder.toString());
-        }
     }
-    
-    
-    
 
     private void jogar() throws IOException {
         while (true) {
@@ -230,6 +209,7 @@ public class BatalhaNavalMultiplayer {
                 Scanner scanner = new Scanner(System.in);
                 System.out.println("Seu turno:");
                 exibirTabuleiro(tabuleiroJogador, tabuleiroAtaque);
+
     
                 System.out.println("Sua vez de atacar!");
                 System.out.print("Digite a linha: ");
@@ -237,11 +217,8 @@ public class BatalhaNavalMultiplayer {
                 System.out.print("Digite a coluna: ");
                 int coluna = scanner.nextInt();
     
-                // Envia o ataque como uma string "linha,coluna"
-                output.println(linha + "," + coluna);  
-                
-                // Espera o resultado da jogada, agora com leitura segura
-                String resultado = input.readLine();  
+                output.println(linha + "," + coluna);
+                String resultado = input.readLine();
     
                 if ("ACERTO".equals(resultado) || tabuleiroAtaque[linha][coluna] == ACERTO) {
                     System.out.println("Você acertou!");
@@ -251,7 +228,6 @@ public class BatalhaNavalMultiplayer {
                     tabuleiroAtaque[linha][coluna] = ERRO;
                 }
     
-                // Verifica se o jogo terminou
                 if (ChecarFimDeJogo("navios_oponente.json", tabuleiroAtaque)) {
                     System.out.println("Você venceu!");
                     output.println("FIM_JOGO");
@@ -260,52 +236,37 @@ public class BatalhaNavalMultiplayer {
     
             } else {
                 System.out.println("Aguardando o ataque do oponente...");
+                String ataque = input.readLine();
     
-                // Lê o ataque enviado pelo servidor, agora com InputStream.read() para garantir uma leitura mais precisa
-                InputStream inputStream = socket.getInputStream();
-                byte[] data = new byte[2];  // Esperamos 2 bytes: linha e coluna
-                int bytesLidos = inputStream.read(data);  // Lê os 2 bytes
+                if ("FIM_JOGO".equals(ataque)) {
+                    System.out.println("Você perdeu!");
+                    break; // Sai do loop
+                }
     
-                if (bytesLidos == 2) {
-                    String ataque = new String(data);  // Converte os bytes lidos em string
-                    System.out.println("Ataque recebido: " + ataque);
+                String[] partes = ataque.split(",");
+                int linha = Integer.parseInt(partes[0]);
+                int coluna = Integer.parseInt(partes[1]);
     
-                    if (ataque.length() == 2) {
-                        // Processa o ataque
-                        int linha = Character.getNumericValue(ataque.charAt(0));  // Primeiro dígito é a linha
-                        int coluna = Character.getNumericValue(ataque.charAt(1));  // Segundo dígito é a coluna
-    
-                        // Processa o ataque
-                        if (tabuleiroJogador[linha][coluna] == NAVIO || tabuleiroJogador[linha][coluna] == ACERTO) {
-                            tabuleiroJogador[linha][coluna] = ACERTO;
-                            System.out.println("O oponente acertou na posição: (" + linha + ", " + coluna + ")");
-                            output.println("ACERTO");
-                        } else {
-                            tabuleiroJogador[linha][coluna] = ERRO;
-                            System.out.println("O oponente errou na posição: (" + linha + ", " + coluna + ")");
-                            output.println("ERRO");
-                        }
-    
-                        // Verifica se o jogo terminou
-                        if (ChecarFimDeJogo("meus_navios.json", tabuleiroJogador)) {
-                            System.out.println("Você perdeu!");
-                            output.println("FIM_JOGO");
-                            break; // Sai do loop
-                        }
-                    } else {
-                        System.out.println("Formato de ataque inválido! Esperado: [0-9][0-9].");
-                    }
+                if (tabuleiroJogador[linha][coluna] == NAVIO || tabuleiroJogador[linha][coluna] == ACERTO) {
+                    tabuleiroJogador[linha][coluna] = ACERTO;
+                    System.out.println("O oponente acertou na posição: (" + linha + ", " + coluna + ")");
+                    output.println("ACERTO");
                 } else {
-                    System.out.println("Erro ao ler o ataque. Bytes lidos: " + bytesLidos);
+                    tabuleiroJogador[linha][coluna] = ERRO;
+                    System.out.println("O oponente errou na posição: (" + linha + ", " + coluna + ")");
+                    output.println("ERRO");
+                }
+    
+                if (ChecarFimDeJogo("meus_navios.json", tabuleiroJogador)) {
+                    System.out.println("Você perdeu!");
+                    output.println("FIM_JOGO");
+                    break; // Sai do loop
                 }
             }
     
             meuTurno = !meuTurno;
         }
     }
-    
-    
-    
     
 
     private boolean ChecarFimDeJogo(String arquivoJson, char[][] tabuleiro) {
